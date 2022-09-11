@@ -1,5 +1,6 @@
 package restassured;
 
+import Constants.Urls;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.testng.annotations.Test;
@@ -22,7 +23,7 @@ public class RestAssuredTest {
                 .and()
                 .body(updateBody)
                 .when()
-                .patch("https://reqres.in/api/users/2")
+                .patch(Urls.USERS_URL)
                 .then()
                 .statusCode(200);
     }
@@ -32,14 +33,14 @@ public class RestAssuredTest {
         RestAssured
                 .given()
                 .when()
-                .delete("https://reqres.in/api/users/2")
+                .delete(Urls.USERS_URL)
                 .then()
                 .statusCode(204);
     }
 
     @Test
     public void checkRegisterSuccessfulTest() {
-        UserModel updateBody = UserModel
+        UserModel registerBody = UserModel
                 .builder()
                 .email("eve.holt@reqres.in")
                 .password("pistol")
@@ -49,15 +50,15 @@ public class RestAssuredTest {
                 .given()
                 .contentType(ContentType.JSON)
                 .and()
-                .body(updateBody)
+                .body(registerBody)
                 .when()
-                .post("https://reqres.in/api/register")
+                .post(Urls.REGISTER_URL)
                 .then()
                 .statusCode(200);
     }
     @Test
     public void checkRegisterUnsuccessfulTest() {
-        UserModel updateBody = UserModel
+        UserModel registerBody = UserModel
                 .builder()
                 .email("sydney@fife")
                 .build();
@@ -66,15 +67,15 @@ public class RestAssuredTest {
                 .given()
                 .contentType(ContentType.JSON)
                 .and()
-                .body(updateBody)
+                .body(registerBody)
                 .when()
-                .post("https://reqres.in/api/register")
+                .post(Urls.REGISTER_URL)
                 .then()
                 .statusCode(400);
     }
     @Test
-    public void checkLoinSuccessfulTest() {
-        UserModel updateBody = UserModel
+    public void checkLoginSuccessfulTest() {
+        UserModel loginBody = UserModel
                 .builder()
                 .email("eve.holt@reqres.in")
                 .password("cityslicka")
@@ -84,15 +85,15 @@ public class RestAssuredTest {
                 .given()
                 .contentType(ContentType.JSON)
                 .and()
-                .body(updateBody)
+                .body(loginBody)
                 .when()
-                .post("https://reqres.in/api/login")
+                .post(Urls.LOGIN_URL)
                 .then()
                 .statusCode(200);
     }
     @Test
     public void checkLoginUnsuccessfulTest() {
-        UserModel updateBody = UserModel
+        UserModel loginBody = UserModel
                 .builder()
                 .email("peter@klaven")
                 .build();
@@ -101,9 +102,9 @@ public class RestAssuredTest {
                 .given()
                 .contentType(ContentType.JSON)
                 .and()
-                .body(updateBody)
+                .body(loginBody)
                 .when()
-                .post("https://reqres.in/api/login")
+                .post(Urls.LOGIN_URL)
                 .then()
                 .statusCode(400);
     }
@@ -112,7 +113,7 @@ public class RestAssuredTest {
         RestAssured
                 .given()
                 .when()
-                .get("https://reqres.in/api/users?delay=3")
+                .get(Urls.DELAY_URL)
                 .then()
                 .statusCode(200)
                 .body("page", instanceOf(Integer.class))
